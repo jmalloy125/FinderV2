@@ -1,14 +1,14 @@
 package directorytree
 
 type FileData struct {
-	path string
-	data []byte
+	Path string
+	Data string
 }
 
-func (file *FileData) ReadBytes(filepath string) {
-	return
+func (file *FileData) SetBytes(bytes string) {
+	file.Data = bytes
 }
 
 func (file *FileData) GetPath() string {
-	return file.path
+	return file.Path
 }
