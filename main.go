@@ -7,8 +7,5 @@ import (
 func main() {
 	dirs := directorytree.NewDirectoryTree("./testDir/")
 	dirs.Walk()
-	//for _, file := range dirs.GetFiles() {
-	//	fmt.Println(file.GetPath())
-	//}
 	dirs.ReadFilesToBytesAsync()
 }
