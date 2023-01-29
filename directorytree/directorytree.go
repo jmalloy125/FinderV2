@@ -2,7 +2,6 @@ package directorytree
 
 import (
 	"finder/FinderV2/hashing"
-	"fmt"
 	"io/fs"
 	"log"
 	"path/filepath"
@@ -21,11 +20,15 @@ func NewDirectoryTree(path string) DirectoryTree {
 	return DirectoryTree{root: path, files: make(map[string]*FileData)}
 }
 
+func (directory *DirectoryTree) GetFiles() map[string]*FileData {
+	return directory.files
+}
+
 func (directory *DirectoryTree) ReadFilesToBytesAsync() {
 	receiveDataChan := make(chan hashing.ByteData)
 	for path, _ := range directory.files {
 		directory.asyncFileGroup.Add(1)
-		go hashing.GetBytes(path, &directory.asyncFileGroup, receiveDataChan)
+		go hashing.GetBytesHashed(path, &directory.asyncFileGroup, receiveDataChan)
 	}
 	go func() {
 		directory.asyncFileGroup.Wait()
@@ -33,7 +36,6 @@ func (directory *DirectoryTree) ReadFilesToBytesAsync() {
 	}()
 	for data := range receiveDataChan {
 		directory.files[data.Path].Data = data.Bytes
-		fmt.Println(directory.files[data.Path])
 	}
 }
 
@@ -51,3 +53,15 @@ func (directory *DirectoryTree) Walk() {
 		log.Fatal("Failed to walk directory: ", directory.root)
 	}
 }
+
+func (directory *DirectoryTree) FindDuplicates() map[string]int {
+	duplicates := make(map[string]int)
+	for _, file := range directory.files {
+		if key, ok := duplicates[file.Path]; !ok {
+
+		}
+	}
+	return duplicates
+}
+
+// todo fix this shit
