@@ -54,14 +54,10 @@ func (directory *DirectoryTree) Walk() {
 	}
 }
 
-func (directory *DirectoryTree) FindDuplicates() map[string]int {
-	duplicates := make(map[string]int)
+func (directory *DirectoryTree) FindDuplicates() map[string][]string {
+	duplicates := make(map[string][]string)
 	for _, file := range directory.files {
-		if key, ok := duplicates[file.Path]; !ok {
-
-		}
+		duplicates[file.Data] = append(duplicates[file.Data], file.Path)
 	}
 	return duplicates
 }
-
-// todo fix this shit

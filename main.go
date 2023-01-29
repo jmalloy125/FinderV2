@@ -9,7 +9,9 @@ func main() {
 	dirs := directorytree.NewDirectoryTree("./testDir/")
 	dirs.Walk()
 	dirs.ReadFilesToBytesAsync()
-	for key, duplicate := range dirs.FindDuplicates() {
-		fmt.Printf("%v: %v\n", key, duplicate)
+	for _, duplicate := range dirs.FindDuplicates() {
+		if len(duplicate) > 1 {
+			fmt.Printf("Found a duplicate set: %v", duplicate)
+		}
 	}
 }
